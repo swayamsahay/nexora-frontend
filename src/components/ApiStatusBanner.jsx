@@ -24,7 +24,7 @@ function ApiStatusBanner() {
       }
 
       setStatus('disconnected')
-      setDetail('Backend disconnected. Start your server on localhost:5000.')
+      setDetail('Backend disconnected. Check VITE_API_URL and backend deployment status.')
     }
   }, [])
 

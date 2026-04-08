@@ -2,6 +2,10 @@ import axios from 'axios'
 import { clearToken, getToken } from '../utils/auth'
 import { getApiErrorMessage } from '../utils/apiError'
 
+if (!import.meta.env.VITE_API_URL) {
+  console.error('Missing VITE_API_URL environment variable')
+}
+
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 })
