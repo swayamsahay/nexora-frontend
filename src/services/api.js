@@ -2,19 +2,17 @@ import axios from 'axios'
 import { clearToken, getToken } from '../utils/auth'
 import { getApiErrorMessage } from '../utils/apiError'
 
-const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
-
-const api = axios.create({
-  baseURL: apiBaseUrl,
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
 })
 
 export const generateStore = (prompt) =>
-	axios.post('/api/ai/generate-store', { prompt })
+  API.post('/api/ai/generate-store', { prompt })
 
 export const generateDescription = (data) =>
-	axios.post('/api/ai/generate-description', data)
+  API.post('/api/ai/generate-description', data)
 
-api.interceptors.request.use(
+API.interceptors.request.use(
   (config) => {
     const token = getToken()
 
@@ -28,7 +26,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-api.interceptors.response.use(
+API.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status
@@ -47,4 +45,4 @@ api.interceptors.response.use(
   },
 )
 
-export default api
+export default API
