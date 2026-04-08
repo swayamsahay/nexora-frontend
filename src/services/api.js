@@ -2,19 +2,26 @@ import axios from 'axios'
 import { clearToken, getToken } from '../utils/auth'
 import { getApiErrorMessage } from '../utils/apiError'
 
-if (!import.meta.env.VITE_API_URL) {
+const rawApiUrl = import.meta.env.VITE_API_URL
+
+if (!rawApiUrl) {
   console.error('Missing VITE_API_URL environment variable')
 }
 
+const normalizedApiUrl = rawApiUrl?.replace(/\/+$/, '')
+const apiBaseUrl = normalizedApiUrl
+  ? (normalizedApiUrl.endsWith('/api') ? normalizedApiUrl : `${normalizedApiUrl}/api`)
+  : undefined
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: apiBaseUrl,
 })
 
 export const generateStore = (prompt) =>
-  API.post('/api/ai/generate-store', { prompt })
+  API.post('/ai/generate-store', { prompt })
 
 export const generateDescription = (data) =>
-  API.post('/api/ai/generate-description', data)
+  API.post('/ai/generate-description', data)
 
 API.interceptors.request.use(
   (config) => {
