@@ -36,12 +36,18 @@ export function setupApiClient() {
     retries: 2,
     retryDelay: axiosRetry.exponentialDelay,
     onRetry: (retryCount, error, requestConfig) => {
+      const status = error?.response?.status
+      const retryType = !error?.response ? 'network' : status >= 500 ? 'server' : 'other'
+      const delayMs = axiosRetry.exponentialDelay(retryCount)
+
       if (typeof window !== 'undefined') {
         window.dispatchEvent(
           new CustomEvent('nexora:api-retry', {
             detail: {
               retryCount,
               url: requestConfig?.url,
+              retryType,
+              delayMs,
             },
           }),
         )
