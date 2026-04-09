@@ -23,7 +23,7 @@ function CreateStore() {
 		setIsLoading(true)
 
 		try {
-			await api.post('/stores', { name: name.trim() })
+			await api.post('/api/stores', { name: name.trim() })
 			toast.success('Store created successfully')
 			navigate('/dashboard')
 		} catch (err) {

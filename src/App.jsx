@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 import Navbar from './components/Navbar.jsx'
 import Landing from './pages/Landing.jsx'
 import Login from './pages/Login.jsx'
@@ -21,6 +23,18 @@ const protectedPaths = ['/dashboard', '/stores', '/products', '/orders', '/analy
 function App() {
 	const location = useLocation()
 	const showPublicNavbar = !protectedPaths.some((path) => location.pathname.startsWith(path))
+
+	useEffect(() => {
+		const handleAuthExpired = () => {
+			toast.error('Session expired. Please log in again.')
+		}
+
+		window.addEventListener('nexora:auth-expired', handleAuthExpired)
+
+		return () => {
+			window.removeEventListener('nexora:auth-expired', handleAuthExpired)
+		}
+	}, [])
 
 	return (
 		<div className="min-h-screen bg-slate-50">

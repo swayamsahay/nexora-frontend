@@ -10,21 +10,25 @@ function ApiStatusBanner() {
     setDetail('Checking backend connection...')
 
     try {
-      console.log('[API Health] Calling GET /health')
-      await api.get('/health', { timeout: 3500 })
+      console.log('[API Health] Calling GET /api/health')
+      const response = await api.get('/api/health', { timeout: 5000 })
+
+      if (response?.data?.status !== 'OK') {
+        throw new Error('Invalid health response')
+      }
+
       setStatus('connected')
       setDetail('Backend connected')
     } catch (err) {
       console.error('[API Health] Health check failed', err)
 
-      if (err?.response) {
-        setStatus('connected')
-        setDetail('Backend reachable (health route not available)')
+      setStatus('disconnected')
+      if (!err?.response || err?.response?.status === 503 || err?.code === 'ECONNABORTED') {
+        setDetail('Server waking up... please wait and retry.')
         return
       }
 
-      setStatus('disconnected')
-      setDetail('Backend disconnected. Check VITE_API_URL and backend deployment status.')
+      setDetail('Backend disconnected. Health check failed. Verify backend and /api/health response.')
     }
   }, [])
 

@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import api, { generateDescription } from '../services/api'
+import api from '../services/api'
+import { generateDescription } from '../services/ai'
 import LoadingState from '../components/LoadingState'
 import EmptyState from '../components/EmptyState'
 import ErrorState from '../components/ui/ErrorState'
@@ -98,7 +99,7 @@ function Dashboard() {
 		setIsCreatingProduct(true)
 
 		try {
-			await api.post('/products', {
+			await api.post('/api/products', {
 				name: validation.name,
 				price: validation.price,
 				stock: validation.stock,
@@ -120,7 +121,7 @@ function Dashboard() {
 		setDeletingProductId(productId)
 
 		try {
-			await api.delete(`/products/${productId}`)
+			await api.delete(`/api/products/${productId}`)
 			await refresh()
 			toast.success('Product deleted')
 		} catch (err) {

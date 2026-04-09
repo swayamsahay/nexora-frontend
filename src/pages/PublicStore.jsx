@@ -52,8 +52,8 @@ function PublicStore() {
 
 			try {
 				const [storeResponse, productsResponse] = await Promise.all([
-					api.get(`/stores/public/${slug}`),
-					api.get(`/products/public/${slug}`),
+					api.get(`/api/stores/public/${slug}`),
+					api.get(`/api/products/public/${slug}`),
 				])
 
 				const nextStore = readStoreFromResponse(storeResponse)
@@ -68,7 +68,7 @@ function PublicStore() {
 				}
 
 				try {
-					const websiteResponse = await api.get(`/builder/public/${storeId}`)
+					const websiteResponse = await api.get(`/api/builder/public/${storeId}`)
 					const website = readWebsiteFromResponse(websiteResponse)
 
 					if (website?.layout) {
@@ -116,7 +116,7 @@ function PublicStore() {
 		setBuyingProductId(productId)
 
 		try {
-			const orderResponse = await api.post('/orders', {
+			const orderResponse = await api.post('/api/orders', {
 				productId,
 				quantity: 1,
 			})
@@ -132,7 +132,7 @@ function PublicStore() {
 				throw new Error('Order ID missing from create order response')
 			}
 
-			const razorpayResponse = await api.post('/orders/create-razorpay-order', { orderId })
+			const razorpayResponse = await api.post('/api/orders/create-razorpay-order', { orderId })
 			const razorOrder = razorpayResponse?.data?.data || razorpayResponse?.data?.order || razorpayResponse?.data
 
 			if (!razorOrder?.id || !razorOrder?.amount) {
@@ -152,7 +152,7 @@ function PublicStore() {
 				order_id: razorOrder.id,
 				handler: async (response) => {
 					try {
-						await api.post('/orders/verify-payment', {
+						await api.post('/api/orders/verify-payment', {
 							razorpay_order_id: response.razorpay_order_id,
 							razorpay_payment_id: response.razorpay_payment_id,
 							razorpay_signature: response.razorpay_signature,

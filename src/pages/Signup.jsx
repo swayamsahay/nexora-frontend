@@ -51,7 +51,7 @@ function Signup() {
 		setIsLoading(true)
 
 		try {
-			const response = await api.post('/auth/register', { email: trimmedEmail, password: trimmedPassword })
+			const response = await api.post('/api/auth/signup', { email: trimmedEmail, password: trimmedPassword })
 			const token = response?.data?.token || response?.data?.data?.token || response?.data?.accessToken || response?.data?.data?.accessToken
 
 			if (token) {

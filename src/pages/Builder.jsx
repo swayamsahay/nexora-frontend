@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
-import api, { generateStore } from '../services/api'
+import api from '../services/api'
+import { generateStore } from '../services/ai'
 import LoadingState from '../components/LoadingState'
 import EmptyState from '../components/EmptyState'
 import SectionRenderer from '../components/builder/SectionRenderer'
@@ -59,8 +60,8 @@ function Builder() {
 
 			try {
 				const [storeResponse, productsResponse] = await Promise.all([
-					api.get('/stores/me'),
-					api.get('/products/me'),
+					api.get('/api/stores/me'),
+					api.get('/api/products/me'),
 				])
 
 				const nextStore = readStoreFromResponse(storeResponse)
@@ -75,7 +76,7 @@ function Builder() {
 					return
 				}
 
-				const websiteResponse = await api.get(`/builder/${storeId}`)
+				const websiteResponse = await api.get(`/api/builder/${storeId}`)
 				const website = readWebsiteFromResponse(websiteResponse)
 
 				const nextLayout = {
@@ -197,7 +198,7 @@ function Builder() {
 
 		setIsSaving(true)
 		try {
-			await api.post('/builder/save', {
+			await api.post('/api/builder/save', {
 				storeId,
 				layout: layoutState,
 				theme: layoutState.theme,
@@ -219,7 +220,7 @@ function Builder() {
 
 		setIsPublishing(true)
 		try {
-			const response = await api.put('/builder/publish', {
+			const response = await api.put('/api/builder/publish', {
 				storeId,
 				isPublished: !isPublished,
 			})

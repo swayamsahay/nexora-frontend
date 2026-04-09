@@ -4,6 +4,9 @@ import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import './index.css'
 import App from './App.jsx'
+import { setupApiClient } from './services/apiClientSetup'
+
+setupApiClient()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom'
+import { isAuthenticated } from '../utils/auth'
 
 function Landing() {
 	const navigate = useNavigate()
 
 	const handleGetStarted = () => {
-		const token = localStorage.getItem('token')
-		navigate(token ? '/dashboard' : '/login')
+		navigate(isAuthenticated() ? '/dashboard' : '/login')
 	}
 
 	return (

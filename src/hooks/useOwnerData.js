@@ -22,10 +22,10 @@ export function useOwnerData() {
 
 		try {
 			const [storeResponse, productsResponse, ordersResponse, analyticsResponse] = await Promise.all([
-				api.get('/stores/me'),
-				api.get('/products/me'),
-				api.get('/orders/me'),
-				api.get('/analytics/me'),
+				api.get('/api/stores/me'),
+				api.get('/api/products/me'),
+				api.get('/api/orders/me'),
+				api.get('/api/analytics/me'),
 			])
 
 			setStore(storeResponse?.data?.store ?? storeResponse?.data ?? null)
@@ -50,7 +50,7 @@ export function useOwnerData() {
 
 	const refreshProducts = useCallback(async () => {
 		try {
-			const response = await api.get('/products/me')
+			const response = await api.get('/api/products/me')
 			setProducts(normalizeArray(response?.data?.products ?? response?.data))
 		} catch (err) {
 			setError(getApiErrorMessage(err, 'Could not refresh products.'))
@@ -59,7 +59,7 @@ export function useOwnerData() {
 
 	const refreshOrders = useCallback(async () => {
 		try {
-			const response = await api.get('/orders/me')
+			const response = await api.get('/api/orders/me')
 			setOrders(normalizeArray(response?.data?.orders ?? response?.data))
 		} catch (err) {
 			setError(getApiErrorMessage(err, 'Could not refresh orders.'))
@@ -68,7 +68,7 @@ export function useOwnerData() {
 
 	const refreshStore = useCallback(async () => {
 		try {
-			const response = await api.get('/stores/me')
+			const response = await api.get('/api/stores/me')
 			setStore(response?.data?.store ?? response?.data ?? null)
 		} catch (err) {
 			setError(getApiErrorMessage(err, 'Could not refresh store details.'))

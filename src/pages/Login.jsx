@@ -33,7 +33,7 @@ function Login() {
 		setIsLoading(true)
 
 		try {
-			const response = await api.post('/auth/login', { email: trimmedEmail, password: trimmedPassword })
+			const response = await api.post('/api/auth/login', { email: trimmedEmail, password: trimmedPassword })
 			const token = response?.data?.token || response?.data?.data?.token || response?.data?.accessToken || response?.data?.data?.accessToken
 
 			if (!token) {

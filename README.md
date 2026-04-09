@@ -1,16 +1,47 @@
-# React + Vite
+# Nexora Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Production React frontend for Nexora SaaS.
 
-Currently, two official plugins are available:
+## Environment Variables
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Create a `.env` file for local development:
 
-## React Compiler
+```env
+VITE_API_URL=https://your-backend.onrender.com
+VITE_RAZORPAY_KEY=rzp_test_xxxxxxxxxxxxx
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Important notes:
 
-## Expanding the ESLint configuration
+- `VITE_API_URL` must be set.
+- Do not add a trailing slash.
+- Do not include extra spaces.
+- Use the deployed backend URL in Vercel.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## API Behavior
+
+- All frontend requests use `src/services/api.js`.
+- The frontend sends requests to `/api/...` endpoints.
+- Auth token is attached automatically in `src/services/apiClientSetup.js`.
+- API request, response, and error logs are printed in browser console.
+
+## Vercel Checklist
+
+- Set `VITE_API_URL` in Vercel project environment variables.
+- Redeploy after any env var change.
+- Hard refresh browser cache after deployment.
+- Verify `GET /api/health` from the UI banner.
+- Confirm no frontend call is using `localhost`.
+
+## Run Locally
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
