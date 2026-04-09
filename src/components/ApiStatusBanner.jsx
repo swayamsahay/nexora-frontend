@@ -39,7 +39,22 @@ function ApiStatusBanner() {
       checkApiStatus()
     }, 15000)
 
-    return () => clearInterval(intervalId)
+    const handleApiRetry = (event) => {
+      const url = event?.detail?.url || ''
+      const retryCount = event?.detail?.retryCount || 0
+
+      if (url.includes('/api/health')) {
+        setStatus('checking')
+        setDetail(`Retrying connection (attempt ${retryCount}/2)...`)
+      }
+    }
+
+    window.addEventListener('nexora:api-retry', handleApiRetry)
+
+    return () => {
+      clearInterval(intervalId)
+      window.removeEventListener('nexora:api-retry', handleApiRetry)
+    }
   }, [checkApiStatus])
 
   const isConnected = status === 'connected'

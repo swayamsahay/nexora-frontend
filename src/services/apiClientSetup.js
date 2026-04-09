@@ -35,6 +35,18 @@ export function setupApiClient() {
   axiosRetry(API, {
     retries: 2,
     retryDelay: axiosRetry.exponentialDelay,
+    onRetry: (retryCount, error, requestConfig) => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('nexora:api-retry', {
+            detail: {
+              retryCount,
+              url: requestConfig?.url,
+            },
+          }),
+        )
+      }
+    },
     retryCondition: (error) => {
       const status = error?.response?.status
       return axiosRetry.isNetworkOrIdempotentRequestError(error) || status === 503 || status === 504
