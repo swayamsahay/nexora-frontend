@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { clearToken, isAuthenticated } from '../../utils/auth'
+import ThemeToggle from '../common/ThemeToggle'
 
 const titleMap = {
 	'/dashboard': 'Dashboard',
@@ -48,6 +49,7 @@ function Header() {
 					</div>
 
 					<div className="flex items-center gap-3">
+						<ThemeToggle />
 						{isAuthenticated() ? (
 							<>
 								<button

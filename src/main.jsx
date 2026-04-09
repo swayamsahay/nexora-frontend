@@ -4,14 +4,17 @@ import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import './index.css'
 import App from './App.jsx'
-import { setupApiClient } from './services/apiClientSetup'
+import AppProviders from './app/providers/AppProviders'
+import { setupApiClient } from './core/api/setup'
 
 setupApiClient()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <AppProviders>
+        <App />
+      </AppProviders>
       <Toaster
         position="top-right"
         toastOptions={{

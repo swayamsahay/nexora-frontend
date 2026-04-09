@@ -5,6 +5,16 @@
 @layer base {
 	:root {
 		color-scheme: light;
+		--page-bg: #f8fafc;
+		--page-bg-alt: #eef2ff;
+		--page-text: #0f172a;
+	}
+
+	:root.dark {
+		color-scheme: dark;
+		--page-bg: #020617;
+		--page-bg-alt: #0f172a;
+		--page-text: #e2e8f0;
 	}
 
 	* {
@@ -21,9 +31,10 @@
 		background:
 			radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 28%),
 			radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 24%),
-			linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-		color: #0f172a;
+			linear-gradient(180deg, var(--page-bg) 0%, var(--page-bg-alt) 100%);
+		color: var(--page-text);
 		font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		transition: background 200ms ease, color 200ms ease;
 	}
 
 	#root {
